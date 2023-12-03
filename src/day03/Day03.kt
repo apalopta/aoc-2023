@@ -2,7 +2,6 @@ import kotlin.math.abs
 
 typealias Field = Int
 typealias EnginePositions = CharArray
-typealias NumberPositions = IntArray
 
 fun main() {
     fun part1(input: List<String>): Int {
@@ -12,19 +11,10 @@ fun main() {
 
 //        engine.engineParts.displayAsBoard(width, height)
 //        engine.digitPositions.displayAsBoard(width, height)
-        val rangesToNumbers = engine.getNumbers(input.joinToString(""))
-
         with(LinearGridBoard(width, height)) {
-            return engine.engineParts.mapIndexed { index, part ->
-                val numbers = if (part != '.')
-                    rangesToNumbers.filter { (indices, value) -> indices.any { it.distanceTo(index) == 1 } }.map { it.value }
-                else
-                    listOf(0)
-
-                numbers
-//                    .also { println("idx: $index -> numbers: $numbers") }
-                    .sum()
-            }.sum()
+            return doIt(engine, input.joinToString("")) { lists ->
+                lists.map { it.sum() } }
+                .sum()
         }
     }
 
@@ -35,24 +25,11 @@ fun main() {
 
 //        engine.engineParts.displayAsBoard(width, height)
 //        engine.digitPositions.displayAsBoard(width, height)
-        val rangesToNumbers = engine.getNumbers(input.joinToString(""))
-
         with(LinearGridBoard(width, height)) {
-            val res = engine.gears.flatMap { gear ->
-                engine.engineParts.mapIndexed { index, part ->
-                    val numbers = if (part == gear)
-                        rangesToNumbers
-                            .filter { (indices, value) -> indices.any { it.distanceTo(index) == 1 } }
-                            .map { it.value }
-                    else
-                        listOf(0)
-
-                    numbers
-//                        .also { println("idx: $index -> numbers: $numbers") }
-                }.filter { it.size == 2 }
+            return doIt(engine, input.joinToString("")) { lists ->
+                lists.filter { it.size == 2 }
                     .map { it[0] * it[1] }
-            }
-            return res.sum()
+            }.sum()
         }
     }
 
@@ -65,13 +42,26 @@ fun main() {
     part2(input).println()
 }
 
+context(LinearGridBoard)
+fun doIt(engine: Engine, input: String, c: (List<List<Int>>) -> List<Int>): List<Int> {
+    val rangesToNumbers = engine.getNumbers(input)
+    return engine.gears.flatMap { gear ->
+        val res = engine.engineParts.mapIndexed { index, part ->
+            if (part == gear)
+                rangesToNumbers
+                    .filter { (indices, value) -> indices.any { it.distanceTo(index) == 1 } }
+                    .map { it.value }
+            else
+                listOf(0)
+        }
+        c(res)
+    }
+}
+
 
 class Engine(val data: CharArray, width: Int, height: Int) : LinearGridBoard(width, height) {
     val engineParts = EnginePositions(width * height) {
         if (data[it].isDigit()) '.' else (if (data[it] != '.') data[it] else '.')
-    }
-    val digitPositions = NumberPositions(width * height) {
-        if (data[it].isDigit()) data[it].toString().toInt() else 0
     }
     val gears = engineParts.filter { it != '.' }.distinct()
 
@@ -114,10 +104,6 @@ open class LinearGridBoard(private val rows: Int, private val columns: Int) {
             distanceHorizontal == 0 && distanceVertical == 0 -> 0
             else -> 2
         }
-    }
-
-    fun IntRange.distanceTo(field: Field) {
-        this.minOfOrNull { it.distanceTo(field) }
     }
 }
 
