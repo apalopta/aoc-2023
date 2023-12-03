@@ -5,28 +5,17 @@ typealias EnginePositions = CharArray
 
 fun main() {
     fun part1(input: List<String>): Int {
-        val width = input[0].length
-        val height = input.size
-        val engine = Engine(input.joinToString("").toCharArray(), width, height)
-
-//        engine.engineParts.displayAsBoard(width, height)
-//        engine.digitPositions.displayAsBoard(width, height)
-        with(LinearGridBoard(width, height)) {
-            return doIt(engine, input.joinToString("")) { lists ->
-                lists.map { it.sum() } }
+        with(Engine.from(input)) {
+            return getNeighbourNumbers() { lists ->
+                lists.map { it.sum() }
+            }
                 .sum()
         }
     }
 
     fun part2(input: List<String>): Int {
-        val width = input[0].length
-        val height = input.size
-        val engine = Engine(input.joinToString("").toCharArray(), width, height)
-
-//        engine.engineParts.displayAsBoard(width, height)
-//        engine.digitPositions.displayAsBoard(width, height)
-        with(LinearGridBoard(width, height)) {
-            return doIt(engine, input.joinToString("")) { lists ->
+        with(Engine.from(input)) {
+            return getNeighbourNumbers() { lists ->
                 lists.filter { it.size == 2 }
                     .map { it[0] * it[1] }
             }.sum()
@@ -42,11 +31,10 @@ fun main() {
     part2(input).println()
 }
 
-context(LinearGridBoard)
-fun doIt(engine: Engine, input: String, c: (List<List<Int>>) -> List<Int>): List<Int> {
-    val rangesToNumbers = engine.getNumbers(input)
-    return engine.gears.flatMap { gear ->
-        val res = engine.engineParts.mapIndexed { index, part ->
+fun Engine.getNeighbourNumbers(c: (List<List<Int>>) -> List<Int>): List<Int> {
+    val rangesToNumbers = getNumberRangesToNumbers()
+    return gears.flatMap { gear ->
+        val res = engineParts.mapIndexed { index, part ->
             if (part == gear)
                 rangesToNumbers
                     .filter { (indices, value) -> indices.any { it.distanceTo(index) == 1 } }
@@ -58,6 +46,27 @@ fun doIt(engine: Engine, input: String, c: (List<List<Int>>) -> List<Int>): List
     }
 }
 
+// slower than just iterating - but okay for the moment
+fun Engine.getNumberRangesToNumbers(): Map<IntRange, Int> {
+    val replaced = data.joinToString("").replace("""[\D+]""".toRegex(), ".")
+    val numbers = mutableMapOf<IntRange, Int>()
+    var string = replaced.dropWhile { it == '.' }
+    var currentIndex = replaced.length - string.length
+
+    while (string.isNotEmpty()) {
+        val candidate = string.substringBefore(".")
+
+        numbers[(currentIndex until currentIndex + candidate.length)] = candidate.toInt()
+
+        string = string.removePrefix(candidate)
+        currentIndex += candidate.length
+        val newString = string.dropWhile { !it.isDigit() }
+        currentIndex += (string.length - newString.length)
+        string = newString
+    }
+
+    return numbers
+}
 
 class Engine(val data: CharArray, width: Int, height: Int) : LinearGridBoard(width, height) {
     val engineParts = EnginePositions(width * height) {
@@ -65,25 +74,13 @@ class Engine(val data: CharArray, width: Int, height: Int) : LinearGridBoard(wid
     }
     val gears = engineParts.filter { it != '.' }.distinct()
 
-    fun getNumbers(data: String): Map<IntRange, Int> {
-        val replaced = data.replace("""[\D+]""".toRegex(), ".")
-        val numbers = mutableMapOf<IntRange, Int>()
-        var string = replaced.dropWhile { it == '.' }
-        var currentIndex = replaced.length - string.length
-
-        while (string.isNotEmpty()) {
-            val candidate = string.substringBefore(".")
-
-            numbers[(currentIndex until currentIndex + candidate.length)] = candidate.toInt()
-
-            string = string.removePrefix(candidate)
-            currentIndex += candidate.length
-            val newString = string.dropWhile { !it.isDigit() }
-            currentIndex += (string.length - newString.length)
-            string = newString
+    companion object {
+        fun from(input: List<String>): Engine {
+            require(input.map { it.length }.distinct().size == 1) { "expect all lines are of same length" }
+            val width = input[0].length
+            val height = input.size
+            return Engine(input.joinToString("").toCharArray(), width, height)
         }
-
-        return numbers
     }
 }
 
