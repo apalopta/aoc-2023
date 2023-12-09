@@ -1,3 +1,6 @@
+import kotlin.system.measureTimeMillis
+import kotlin.time.measureTimedValue
+
 @JvmInline
 value class Id(val id: String)
 
@@ -65,5 +68,8 @@ fun main() {
 
     val input = readInput("day08/input")
     part1(input).println()
-//    part2(input).println()
+    val time = measureTimedValue {
+        part2(input).println()
+    }
+    println("took: ${time.duration.inWholeSeconds}")
 }
