@@ -1,17 +1,18 @@
 fun main() {
-    fun part1(input: List<String>, otherGameSet: GameSet): Int {
-        return input.readGames().filter { game: Game -> game.sets.all { it <= otherGameSet } }.sumOf { it.id }
-    }
+    fun part1(input: List<String>, otherGameSet: GameSet): Int = input
+        .readGames()
+        .filter { game: Game -> game.sets.all { it <= otherGameSet } }
+        .sumOf { it.id }
 
-    fun part2(input: List<String>): Int = input.readGames()
-        .map { game -> game.minimumSet().power() }
-        .sum()
+    fun part2(input: List<String>): Int = input
+        .readGames()
+        .sumOf { game -> game.minimumSet().power() }
 
     // test if implementation meets criteria from the description, like:
-    check(part1(readInput("Day02-test-1"), GameSet(12, 13, 14)) == 8)
-    check(part2(readInput("Day02-test-1")) == 2286)
+    check(part1(readInput("day02/test-1"), GameSet(12, 13, 14)) == 8)
+    check(part2(readInput("day02/test-1")) == 2286)
 
-    val input = readInput("Day02-input")
+    val input = readInput("day02/input")
     part2(input).println()
 }
 

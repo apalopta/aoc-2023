@@ -5,10 +5,10 @@ fun main() {
     fun part2(input: List<String>): Int = input.map { it.firstAndLastNumber() }.sumOf { it.toInt() }
 
     // test if implementation meets criteria from the description, like:
-    check(part1(readInput("Day01-test-1")) == 142)
-    check(part2(readInput("Day01-test-2")) == 281)
+    check(part1(readInput("day01/test-1")) == 142)
+    check(part2(readInput("day01/test-2")) == 281)
 
-    val input = readInput("Day01-input")
+    val input = readInput("day01/input")
     part1(input).println()
     part2(input).println()
 }

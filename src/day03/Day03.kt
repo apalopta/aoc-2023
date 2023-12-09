@@ -42,7 +42,7 @@ fun Engine.getGearNumbers(c: (List<List<Int>>) -> List<Int>): List<Int> {
         val res = engineParts.mapIndexed { index, part ->
             if (part == gear)
                 rangesToNumbers
-                    .filter { (indices, value) -> indices.any { it.distanceTo(index) == 1 } }
+                    .filter { (indices, _) -> indices.any { it.distanceTo(index) == 1 } }
                     .map { it.value }
             else
                 listOf(0)
@@ -64,7 +64,7 @@ private fun Engine.findNumbersInRows(): Map<IntRange, Int> {
     val map = mutableMapOf<IntRange, Int>()
 
     var currentIndex = 0
-    rows.forEachIndexed { rowIndex, row ->
+    rows.forEachIndexed { _, row ->
         val chars = mutableListOf<Char>()
         var startAt = 0
         for ((i, char) in row.withIndex()) {
@@ -142,18 +142,22 @@ open class LinearGridBoard(private val rows: Int, private val columns: Int) {
     }
 }
 
-fun IntArray.displayAsBoard(width: Int, height: Int) {
-    println(Array(width) { "-" }.joinToString("-"))
+fun IntArray.displayAsBoard(width: Int) {
+    printlnDashed(width)
     toList().chunked(width).forEach { row ->
         println(row.joinToString(" "))
     }
-    println(Array(width) { "-" }.joinToString("-"))
+    printlnDashed(width)
 }
 
-fun CharArray.displayAsBoard(width: Int, height: Int) {
-    println(Array(width) { "-" }.joinToString("-"))
+fun CharArray.displayAsBoard(width: Int) {
+    printlnDashed(width)
     toList().chunked(width).forEach { row ->
         println(row.joinToString(" "))
     }
+    printlnDashed(width)
+}
+
+private fun printlnDashed(width: Int) {
     println(Array(width) { "-" }.joinToString("-"))
 }
