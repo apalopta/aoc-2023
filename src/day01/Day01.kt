@@ -15,10 +15,10 @@ fun main() {
 
 fun String.firstAndLastDigit(): String = "${firstOrNull { it.isDigit() } ?: "0"}${lastOrNull { it.isDigit() } ?: "0"}"
 
-private fun String.firstAndLastNumber(): String = "${this.firstDigit(Direction.FORWARD)}${this.firstDigit(Direction.BACKWARD)}"
+private fun String.firstAndLastNumber(): String = "${this.firstDigit(Direction.EAST)}${this.firstDigit(Direction.WEST)}"
 
 private fun String.firstDigit(direction: Direction): String? {
-    val indices = if (direction == Direction.FORWARD) this.indices else this.indices.reversed()
+    val indices = if (direction == Direction.EAST) this.indices else this.indices.reversed()
     for (i in indices) {
         if (this[i].isDigit()) return "${this[i]}"
         replacements.keys.firstOrNull() { k -> this.substring(i).startsWith(k) }?.let {
@@ -29,8 +29,10 @@ private fun String.firstDigit(direction: Direction): String? {
 }
 
 enum class Direction {
-    FORWARD,
-    BACKWARD;
+    EAST,
+    WEST,
+    NORTH,
+    SOUTH;
 }
 
 // =============================================================================
