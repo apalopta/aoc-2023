@@ -13,15 +13,15 @@ fun main() {
     }
 
     fun part2(input: List<String>): Int {
-//        val res = input
-//            .map { it.toJokerBid() }
-//            .sortedBy { it.hand }
-//            .mapIndexed { i, bid ->
-//                bid.amount * (i + 1)
-//            }
-//            .sum()
-//
-//        return res
+        //        val res = input
+        //            .map { it.toJokerBid() }
+        //            .sortedBy { it.hand }
+        //            .mapIndexed { i, bid ->
+        //                bid.amount * (i + 1)
+        //            }
+        //            .sum()
+        //
+        //        return res
         return 5905
     }
 
@@ -31,7 +31,7 @@ fun main() {
 
     val input = readInput("day07/input")
     part1(input).println()
-//    part2(input).println()
+    //    part2(input).println()
 }
 
 data class Card(val id: Char, val strength: Int) : Comparable<Card> {

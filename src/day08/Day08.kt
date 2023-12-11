@@ -52,7 +52,7 @@ fun main() {
         outer@ while (true) {
             for (dir in instructionSet) {
                 // doesn't work for huge instruction sets
-                if (currents.all { it.id.endsWith('Z')}) break@outer
+                if (currents.all { it.id.endsWith('Z') }) break@outer
                 currents = currents.map { mapping[it]?.next(dir) ?: error("we are in trouble") }
                 steps++
             }

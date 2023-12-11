@@ -48,7 +48,7 @@ open class LinearGridBoard(private val rows: Int, private val columns: Int) {
         }
     }
 
-    fun Field.neighbour(direction: Direction) : Field? {
+    fun Field.neighbour(direction: Direction): Field? {
         val row = this / rows
         val column = this % columns
 

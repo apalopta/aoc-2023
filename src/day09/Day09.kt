@@ -1,4 +1,3 @@
-
 private typealias ReducedSequence = List<List<Int>>
 
 fun main() {
@@ -8,8 +7,8 @@ fun main() {
     // }
     // thanks to Olaf :-) - more elegant
     fun List<Int>.toReducedSequence(): ReducedSequence = generateSequence(this) { sequence ->
-            sequence.zipWithNext { a, b -> b - a }
-        }.takeWhile { s -> s.any { it != 0 } }.toList()
+        sequence.zipWithNext { a, b -> b - a }
+    }.takeWhile { s -> s.any { it != 0 } }.toList()
 
     fun String.toInts() = split(" ").map { n -> n.toInt() }
 

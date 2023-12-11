@@ -38,7 +38,8 @@ data class GameSet(val red: Int, val green: Int, val blue: Int) : Comparable<Gam
 }
 
 data class Game(val id: Int, val sets: List<GameSet>)
-fun Game.minimumSet() : GameSet = GameSet(
+
+fun Game.minimumSet(): GameSet = GameSet(
     sets.map { it.red }.max(),
     sets.map { it.green }.max(),
     sets.map { it.blue }.max()
