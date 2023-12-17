@@ -40,11 +40,11 @@ fun main() {
     fun part2(input: List<String>): Int = input
         .steps()
         .boxes()
-        .mapIndexed { index: Int, box: MutableList<Lens> ->
-            (index + 1) * (box.mapIndexed { i, lens ->
-                (i + 1) * lens.focalLength
-            }.sum())
-        }.sum()
+        .foldIndexed(0) { i, power, box ->
+            power + (i + 1) * box.foldIndexed(0) { j, acc, lens ->
+                acc + (j + 1) * lens.focalLength
+            }
+        }
 
     fun readAsJoinedTextSplitBy(path: String, char: Char = ',') = readInput(path).joinToString("").split(char)
 
