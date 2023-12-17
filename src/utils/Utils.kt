@@ -1,3 +1,5 @@
+package utils
+
 import day01.Direction
 import java.math.BigInteger
 import java.security.MessageDigest
@@ -24,6 +26,8 @@ fun String.md5() = BigInteger(1, MessageDigest.getInstance("MD5").digest(toByteA
  * The cleaner shorthand for printing output.
  */
 fun Any?.println() = println(this)
+
+typealias Field = Int
 
 open class LinearGridBoard(private val rows: Int, private val columns: Int) {
     fun Field.distanceTo(other: Field): Int {

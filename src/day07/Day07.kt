@@ -1,3 +1,8 @@
+package day07
+
+import utils.println
+import utils.readInput
+
 fun main() {
 
     fun part1(input: List<String>): Int {
@@ -56,24 +61,24 @@ fun Char.toCard() = when (this) {
 }
 
 //fun Char.toCard2() = when (this) {
-//    'J' -> Card('J', 0)
-//    '2' -> Card('2', 1)
-//    '3' -> Card('3', 2)
-//    '4' -> Card('4', 3)
-//    '5' -> Card('5', 4)
-//    '6' -> Card('6', 5)
-//    '7' -> Card('7', 6)
-//    '8' -> Card('8', 7)
-//    '9' -> Card('9', 8)
-//    'T' -> Card('T', 9)
-//    'Q' -> Card('Q', 11)
-//    'K' -> Card('K', 12)
-//    'A' -> Card('A', 13)
+//    'J' -> day07.Card('J', 0)
+//    '2' -> day07.Card('2', 1)
+//    '3' -> day07.Card('3', 2)
+//    '4' -> day07.Card('4', 3)
+//    '5' -> day07.Card('5', 4)
+//    '6' -> day07.Card('6', 5)
+//    '7' -> day07.Card('7', 6)
+//    '8' -> day07.Card('8', 7)
+//    '9' -> day07.Card('9', 8)
+//    'T' -> day07.Card('T', 9)
+//    'Q' -> day07.Card('Q', 11)
+//    'K' -> day07.Card('K', 12)
+//    'A' -> day07.Card('A', 13)
 //    else -> error("wrong input '$this'")
 //}
 
 fun String.toHand() = Hand(this.toCharArray().map { it.toCard() })
-//fun String.toJokerHand(): Hand = Hand(this.toCharArray().map { it.toCard2() }).asJokerHand()
+//fun String.toJokerHand(): day07.Hand = day07.Hand(this.toCharArray().map { it.toCard2() }).asJokerHand()
 
 data class Hand(val cards: List<Card>) : Comparable<Hand> {
     val type: Type
@@ -106,13 +111,13 @@ data class Hand(val cards: List<Card>) : Comparable<Hand> {
     override fun toString() = this.cards.map { it.id }.joinToString("", postfix = " (${this.type})")
 }
 
-//fun Hand.asJokerHand(): Hand {
+//fun day07.Hand.asJokerHand(): day07.Hand {
 //    val highestValue = this.cards.maxBy { it.strength }.id.toString()
 //    val newCards = cards.map { it.id }
 //        .joinToString("")
 //        .replace("J", highestValue)
 //
-//    return newCards.toHand()
+//    return newCards.day07.toHand()
 //}
 
 enum class Type {
@@ -132,7 +137,7 @@ fun String.toBid(): Bid {
     return Bid(hand.toHand(), hand.toHand(), amount.toInt())
 }
 
-//fun String.toJokerBid(): Bid {
+//fun String.toJokerBid(): day07.Bid {
 //    val (hand, amount) = split(" ")
-//    return Bid(hand.toHand(), hand.toJokerHand(), amount.toInt())
+//    return day07.Bid(hand.day07.toHand(), hand.toJokerHand(), amount.toInt())
 //}

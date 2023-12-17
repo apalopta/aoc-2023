@@ -1,3 +1,8 @@
+package day01
+
+import utils.println
+import utils.readInput
+
 fun main() {
 
     fun part1(input: List<String>): Int = input.map { it.firstAndLastDigit() }.sumOf { it.toInt() }

@@ -1,3 +1,9 @@
+import day01.Direction
+import utils.Field
+import utils.LinearGridBoard
+import utils.println
+import utils.readInput
+
 fun main() {
     fun Maze.reachablePositions(currentPositions: List<Int>, exceptFor: Int) =
         currentPositions

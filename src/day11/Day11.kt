@@ -1,7 +1,7 @@
 package day11
 
-import println
-import readInput
+import utils.println
+import utils.readInput
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -17,7 +17,7 @@ fun main() {
 
     fun List<String>.galaxies(): List<Galaxy> =
         flatMapIndexed { i, line ->
-            line.indices.filter { line[it] == '#' }
+            line.indices.filter { j -> line[j] == '#' }
                 .map { j -> Galaxy(i + j, Pos(i, j)) }
         }
 

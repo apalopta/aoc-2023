@@ -1,3 +1,6 @@
+import utils.println
+import utils.readInput
+
 private typealias ReducedSequence = List<List<Int>>
 
 fun main() {

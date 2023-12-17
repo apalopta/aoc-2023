@@ -1,3 +1,8 @@
+package day02
+
+import utils.println
+import utils.readInput
+
 fun main() {
     fun part1(input: List<String>, otherGameSet: GameSet): Int = input
         .readGames()
@@ -18,7 +23,7 @@ fun main() {
 
 fun List<String>.readGames(): List<Game> {
     return this.map { gameLine ->
-        val id = gameLine.substringBefore(":").substringAfter("Game ").toInt()
+        val id = gameLine.substringBefore(":").substringAfter("day02.Game ").toInt()
         val sets = gameLine.substringAfter(":").split(";").map {
             it.split(",").map { it.trim() }.toGameSet()
         }

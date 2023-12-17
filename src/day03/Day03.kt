@@ -1,7 +1,10 @@
-import kotlin.math.abs
+package day03
+
+import utils.println
+import utils.readInput
+import utils.LinearGridBoard
 import kotlin.time.measureTime
 
-typealias Field = Int
 typealias EnginePositions = CharArray
 
 fun main() {

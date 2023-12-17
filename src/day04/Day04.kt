@@ -1,7 +1,7 @@
 package day04
 
-import println
-import readInput
+import utils.println
+import utils.readInput
 import kotlin.math.pow
 
 fun main() {
@@ -42,7 +42,7 @@ fun main() {
 data class Card(val id: Int, val winningNumbers: List<Int>, val numbers: List<Int>, var count: Int = 1)
 
 fun String.toCard(): Card {
-    val id = substringBefore(":").substringAfter("Card").trim().toInt()
+    val id = substringBefore(":").substringAfter("day07.Card").trim().toInt()
     val winningNumbers = substringBefore("|").substringAfter(":").split(" ").filter { it.isNotEmpty() }.map { it.trim().toInt() }
     val numbers = substringAfter("|").split(" ").filter { it.isNotEmpty() }.map { it.trim().toInt() }
 
